@@ -3,7 +3,7 @@ import java.lang.String;
 
 /* To run:
 *  javac *.java
-*  java Secuential < ../../Tests/Sprinkler,Rain,GrassWet.txt
+*  java Secuential < ../Tests/Sprinkler,Rain,GrassWet.txt
 */
 
 class Secuential {
