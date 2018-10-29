@@ -1,18 +1,25 @@
 import java.util.Scanner;
 import java.lang.String;
+import java.util.*;
 
 /* To run:
 *  javac *.java
-*  java Secuential < ../Tests/Sprinkler,Rain,GrassWet.txt
+*  java Sequential < ../Tests/Sprinkler,Rain,GrassWet.txt
 */
 
-class Secuential {
+class Sequential {
   private Bayes bayes;
 
+  /*
+  * Retrieves the bayes object
+  */
   public Bayes getBayes(){
     return this.bayes;
   }
 
+  /*
+  * Modifies the Bayes object
+  */
   public void setBayes( Bayes bayes){
     this.bayes = bayes;
   }
@@ -31,28 +38,28 @@ class Secuential {
     int numberOfProbabilities = input.nextInt();
     input.nextLine(); //clear buffer
 
-    String[] up_probabilities = new String [numberOfProbabilities]; //unparsed probabilities
-    Probabilities probabilities[] = new Probabilities[numberOfProbabilities];
+    String up_probability = new String(); //unparsed probabilities
+    List<Probabilities> probabilities = new ArrayList<Probabilities>();
 
     for(int i=0; i<numberOfProbabilities; i++){
-      up_probabilities[i]=input.nextLine();
-      String[] aux_probabilities = up_probabilities[i].split("=");
+      up_probability = input.nextLine();
+      String[] aux_probabilities = up_probability.split("=");
 
       String description = aux_probabilities[0];
       float value = Float.parseFloat(aux_probabilities[1]);
-      probabilities[i] = new Probabilities(description, value);  //parsed probabilities
+      probabilities.add(new Probabilities(description, value));  //parsed probabilities
     }
 
     //Queries
     int numberOfQueries = input.nextInt();
     input.nextLine(); //clear buffer
 
-    String[] up_queries = new String [numberOfQueries]; //unparsed queries
-    Queries queries[] = new Queries[numberOfQueries];
+    String up_query = new String(); //unparsed queries
+    List<Queries> queries = new ArrayList<Queries>();
 
     for(int i=0; i<numberOfQueries; i++){
-      up_queries[i] = input.nextLine();
-      queries[i] = new Queries(up_queries[i]); //parsed queries
+      up_query = input.nextLine();
+      queries.add(new Queries(up_query)); //parsed queries
     }
 
     //instanciate Bayes
@@ -62,13 +69,17 @@ class Secuential {
 
 
   public static void main(String[] args) {
-    Secuential sequential = new Secuential();
+    Sequential sequential = new Sequential();
     sequential.parse();
     Bayes bayes = sequential.getBayes();
 
     //only for testing purposes
+
     bayes.printProbabilities();
     bayes.printQueries();
+    System.out.println("---------------");
+    bayes.fillTable();
+    bayes.printProbabilities();
   }
 
 }

@@ -116,7 +116,7 @@ class Main {
   }
 
   void fill_table(){
-    list<Probability> probabilites_copy=probabilites;
+    list<Probability> probabilites_copy = probabilites;
     Probability aux_probabilities;
     string description;
     float value;

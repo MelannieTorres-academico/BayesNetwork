@@ -1,49 +1,83 @@
 import java.lang.String;
+import java.util.*;
+
 
 
 class Bayes {
 
-  private Probabilities[] probabilites;
-  private Queries[] queries;
-  private String[] nodes;
+  private List<Probabilities> probabilites;
+  private List<Queries> queries;
 
-
-  public Bayes(Probabilities[] probabilites, Queries[] queries, String[] nodes ){
+  /*
+  * Bayes constructor
+  */
+  public Bayes(List<Probabilities> probabilites, List<Queries> queries, String[] nodes ){
     this.probabilites = probabilites;
     this.queries = queries;
-    this.nodes = nodes;
   }
 
-  public Probabilities[] getProbabilites(){
+  /*
+  * Retrieves all the probabilities
+  */
+  public List<Probabilities> getProbabilites() {
     return probabilites;
   }
 
-  public Queries[] getQueries(){
+  /*
+  * Retrieves all the queries
+  */
+  public List<Queries> getQueries() {
     return queries;
   }
 
-  public String[] getNodes(){
-    return nodes;
-  }
 
-
-  void printProbabilities(){
+  /*
+  * Writes to the console all the probabilities in the CPT table
+  */
+  void printProbabilities() {
     System.out.println("PROBABILITIES: ");
-
-    Probabilities[] probabilites=this.getProbabilites();
-    for(int i = 0; i<probabilites.length; i++){
-      System.out.println(i+": "+probabilites[i].getDescription()+" "+probabilites[i].getValue());
+    List<Probabilities> probabilites = this.getProbabilites();
+    for(int i = 0; i < probabilites.size(); i++){
+      System.out.println(i+": "+probabilites.get(i).getDescription()+" "+probabilites.get(i).getValue());
     }
   }
 
-  void printQueries(){
+  /*
+  * Writes to the console all the queries the user asked
+  */
+  void printQueries () {
     System.out.println("QUERIES: ");
-
-    Queries[] queries=this.getQueries();
-    for(int i = 0; i<queries.length; i++){
-      System.out.println(i+": "+queries[i].getDescription()+" "+queries[i].getValue());
+    List<Queries> queries = this.getQueries();
+    for(int i = 0; i < queries.size(); i++){
+      System.out.println(i+": "+queries.get(i).getDescription()+" "+queries.get(i).getValue());
     }
   }
 
+  /*
+  * Completes the CPT table with the missing values
+  */
+  void fillTable () {
+    Probabilities aux_probability;
+    String description;
+    float value;
+    StringBuilder aux_description;
+
+    List<Probabilities> copy_probabilities = new ArrayList<Probabilities>(probabilites);
+
+    for(Probabilities probability : copy_probabilities) {
+
+      aux_description = new StringBuilder(probability.getDescription());
+      aux_description.setCharAt(0,(aux_description.charAt(0) == '+') ? '-' : '+');
+      description = new String(aux_description.toString());
+
+      value = (float)1.0 - probability.getValue();
+
+      aux_probability = new Probabilities(description, value);
+
+      if(!probabilites.contains(aux_probability)){
+        probabilites.add(aux_probability);
+      }
+    }
+  }
 
 }
