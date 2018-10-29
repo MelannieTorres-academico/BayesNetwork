@@ -4,17 +4,14 @@ import java.util.*;
 
 
 class Bayes {
-
   private List<Probabilities> probabilites;
   private List<Queries> queries;
 
+
   /*
-  * Bayes constructor
+  * Bayes default constructor
   */
-  public Bayes(List<Probabilities> probabilites, List<Queries> queries, String[] nodes ){
-    this.probabilites = probabilites;
-    this.queries = queries;
-  }
+  public Bayes() {}
 
   /*
   * Retrieves all the probabilities
@@ -28,6 +25,62 @@ class Bayes {
   */
   public List<Queries> getQueries() {
     return queries;
+  }
+
+  /*
+  * Retrieves all the probabilities
+  */
+  public void setProbabilites(List<Probabilities> probabilites) {
+    this.probabilites = probabilites;
+  }
+
+  /*
+  * Retrieves all the queries
+  */
+  public void setQueries(List<Queries> queries) {
+    this.queries = queries;
+  }
+
+  /*
+  * Parses the input given (see folder Tests with input examples)
+  */
+  public void parse(){
+    Scanner input = new Scanner(System.in);
+
+    //nodes
+    String up_nodes = input.nextLine(); //unparsed nodes
+    String[] nodes = up_nodes.split(","); //parsed nodes
+
+    //probabilites
+    int numberOfProbabilities = input.nextInt();
+    input.nextLine(); //clear buffer
+
+    String up_probability = new String(); //unparsed probabilities
+    List<Probabilities> probabilities = new ArrayList<Probabilities>();
+
+    for(int i=0; i<numberOfProbabilities; i++){
+      up_probability = input.nextLine();
+      String[] aux_probabilities = up_probability.split("=");
+
+      String description = aux_probabilities[0];
+      float value = Float.parseFloat(aux_probabilities[1]);
+      probabilities.add(new Probabilities(description, value));  //parsed probabilities
+    }
+
+    //Queries
+    int numberOfQueries = input.nextInt();
+    input.nextLine(); //clear buffer
+
+    String up_query = new String(); //unparsed queries
+    List<Queries> queries = new ArrayList<Queries>();
+
+    for(int i=0; i<numberOfQueries; i++){
+      up_query = input.nextLine();
+      queries.add(new Queries(up_query)); //parsed queries
+    }
+
+    setQueries(queries);
+    setProbabilites(probabilities);
   }
 
 
