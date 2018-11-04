@@ -106,6 +106,52 @@ class Bayes {
     }
   }
 
+  /**
+   * Enumerates the probabilities according to the Bayes network algorithm
+   * @param String Array probabilities
+   */
+  void enumerate(String probabilities[]){
+     int length = (int)Math.pow(2, probabilities.length);
+     String new_probabilities[][] = new String[length][probabilities.length];
+
+     int mid = (length-0)/2;
+     halfTrueHalfFalse(probabilities, "+", 0, mid, 0, new_probabilities);
+     halfTrueHalfFalse(probabilities, "-", mid, length, 0, new_probabilities);
+     printMatrix(new_probabilities);
+  }
+
+  /**
+   * Prints the given matrix
+   * @param String[][] matrix
+   */
+
+  void printMatrix(String[][] matrix){
+    int i, j;
+    for(i = 0; i < matrix.length; i++){
+      for(j = 0; j < matrix[0].length; j++){
+        System.out.print(matrix[i][j].toString()+" ");
+      }
+      System.out.println(" ");
+    }
+  }
+
+
+  /**
+   * Fills the 2D array new probabilities with all possible combinations of signs among the elements of the prob array
+   * @param String Array prob, String sign, int start, int end, int element, String 2D array new_probabilities
+   */
+  void halfTrueHalfFalse(String [] prob, String sign, int start, int end, int element, String [][] new_probabilities){
+    if(element < prob.length){ //validation
+      for (int i = start; i < end; i++){
+        new_probabilities[i][element] = sign + prob[element];
+      }
+      //recursive calls
+      int mid = start + ((end-start)/2);
+      halfTrueHalfFalse(prob, "+", start, mid, element+1, new_probabilities);
+      halfTrueHalfFalse(prob, "-", mid, end, element+1, new_probabilities);
+    }
+  }
+
   /*
   * Completes the CPT table with the missing values
   */

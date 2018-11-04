@@ -19,6 +19,8 @@ class Sequential {
     System.out.println("---------------");
     bayes.fillTable();
     bayes.printProbabilities();
+    String probabilities[]={"Sprinkler", "Rain", "GrassWet"};
+    bayes.enumerate(probabilities);
   }
 
 }
